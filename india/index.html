@@ -135,9 +135,8 @@
                 console.log("Error loading ");
             }
         };
-
-        xhr.send();
         app.controller("data", function ($scope) {
+            xhr.send();
             $scope.loadStatesData = function () {
                 console.log("Angular Working Fine", complete_data);
                 $scope.complete_data = complete_data;
