@@ -89,59 +89,55 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <div ng-app="complete_data" ng-controller="data">
+    <div>
         <button class="cusbutton" ng-click="loadStatesData()" id="loadStatesData"></button> 
         <div class="background_mobile">
             <h5>( Country : India )</h5>
             <h2>Total Cases</h3>
-            <h3>{{complete_data.total}}</h3>
+            <h3 id="total"></h3>
             <h2>Deaths</h2>
-            <h3>{{complete_data.death}}</h3>  
+            <h3 id="death_main"></h3>  
         </div>
         <div class="container">
             <div class="box">
                 <p class="heading">Active Cases</p>
-                <p class="count">{{complete_data.active}}</p>
+                <p class="count" id="active"></p>
             </div>
     
             <div class="box">
                 <p class="heading">Discharged</p>
-                <p class="count">{{complete_data.recovered}}</p>
+                <p class="count" id="recovered"></p>
             </div>
     
             <div class="box">
                 <p class="heading">Deaths</p>
-                <p class="count">{{complete_data.death}}</p>
+                <p class="count" id="death"></p>
             </div>
             <div class="box btn-custom" onclick="window.location.href='statewise.html'">
                 View State Wise Data
             </div>
         </div>
     </div>
-    <script src="/assets/js/angular.min.js"></script>
     <script>
-        let complete_data = [];
+        
         let xhr = new XMLHttpRequest();
         xhr.open("GET", "https://api.allaboutcovid.info/covid19/india/");
-        var app = angular.module("complete_data", []);
         xhr.onload = function () {
             // alert(`Loaded: ${xhr.status} ${xhr.response}`);
             // console.log(xhr.response);
             try {
                 complete_data = JSON.parse(xhr.response)["payload"];
                 console.log("Got States Data", complete_data);
-                document.getElementById("loadStatesData").click();
+                document.getElementById("total").innerText = complete_data["total"];
+                document.getElementById("death").innerText = complete_data["death"];
+                document.getElementById("death_main").innerText = complete_data["death"];
+                document.getElementById("recovered").innerText = complete_data["recovered"];
+                document.getElementById("recovered").innerText = complete_data["active"];
             } catch (e) {
                 console.log("Error loading ");
             }
         };
-        app.controller("data", function ($scope) {
-            xhr.send();
-            $scope.loadStatesData = function () {
-                console.log("Angular Working Fine", complete_data);
-                $scope.complete_data = complete_data;
-            };
-        });
+    
     </script>
 </body>
 </html>
