@@ -1,0 +1,148 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fafafa;
+            margin-bottom: 30px;
+        }
+        .background_mobile {
+            background: #1f85ee;
+            width: 100%;
+            color:white;
+            padding-top: 5vh;
+            padding-bottom: 5vh;
+        }
+
+        h2, h3, h4, h5 {
+            text-align: center;
+        }
+
+        h2 {
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        h3 {
+            color: wheat;
+            font-weight: 200;
+        }
+
+        h5 {
+            color:yellow;
+            letter-spacing: 1px;
+            font-weight: 400;
+            margin-bottom: 2vh;
+        }
+
+        h4 {
+
+            margin-top: 2vh;
+            margin-bottom: 2vh;
+        }
+
+        .box {
+            background: white;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
+            border-radius: .5rem;
+            width: 98%;
+            margin-left: 1%;
+            margin-top: 10px;
+            padding: 10px;
+        }
+
+        .box p.heading {
+            font-size: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .box p.count {
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .btn-custom {
+            background: #1f85ee;
+            color: white;
+            text-align: center;
+            font-family: 'Baloo Da 2', cursive;
+            letter-spacing: 1px;
+            font-size: 1.2rem;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .cusbutton {
+            height: 0;
+            width: 0;
+            border: none;
+            box-shadow: none;
+            background: none;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <div ng-app="complete_data" ng-controller="data">
+        <button class="cusbutton" ng-click="loadStatesData()" id="loadStatesData"></button> 
+        <div class="background_mobile">
+            <h5>( Country : India )</h5>
+            <h2>Total Cases</h3>
+            <h3>{{complete_data.total}}</h3>
+            <h2>Deaths</h2>
+            <h3>{{complete_data.death}}</h3>  
+        </div>
+        <div class="container">
+            <div class="box">
+                <p class="heading">Active Cases</p>
+                <p class="count">{{complete_data.active}}</p>
+            </div>
+    
+            <div class="box">
+                <p class="heading">Discharged</p>
+                <p class="count">{{complete_data.recovered}}</p>
+            </div>
+    
+            <div class="box">
+                <p class="heading">Deaths</p>
+                <p class="count">{{complete_data.death}}</p>
+            </div>
+            <div class="box btn-custom" onclick="window.location.href='indiastatewise.html'">
+                View State Wise Data
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/angular.min.js"></script>
+    <script>
+        let complete_data = [];
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://api.allaboutcovid.info/covid19/india/");
+        var app = angular.module("complete_data", []);
+        xhr.onload = function () {
+            // alert(`Loaded: ${xhr.status} ${xhr.response}`);
+            // console.log(xhr.response);
+            try {
+                complete_data = JSON.parse(xhr.response)["payload"];
+                console.log("Got States Data", complete_data);
+                document.getElementById("loadStatesData").click();
+            } catch (e) {
+                console.log("Error loading ");
+            }
+        };
+
+        xhr.send();
+        app.controller("data", function ($scope) {
+            $scope.loadStatesData = function () {
+                console.log("Angular Working Fine", complete_data);
+                $scope.complete_data = complete_data;
+            };
+        });
+    </script>
+</body>
+</html>
