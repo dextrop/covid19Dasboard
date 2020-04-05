@@ -122,7 +122,7 @@
     <script>
         let complete_data = [];
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://api.allaboutcovid.info/covid19/india/");
+        xhr.open("GET", "https://api.allaboutcovid.info/covid19/india/");
         var app = angular.module("complete_data", []);
         xhr.onload = function () {
             // alert(`Loaded: ${xhr.status} ${xhr.response}`);
